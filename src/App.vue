@@ -1,19 +1,18 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <p><router-link :to="{name: 'component_editor', params: {component_editor: 'customskater_info_structure' }}">Go to Info Editor</router-link></p>
+    <p><router-link :to="{name: 'component_editor', params: {component_editor: 'customskater_stats_structure' }}">Go to Stats Editor</router-link></p>
+    <p><router-link :to="{name: 'component_editor', params: {component_editor: 'customskater_appearance_structure' }}">Go to Appearance Editor</router-link></p>
+    
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+};
 </script>
 
 <style>
