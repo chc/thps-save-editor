@@ -2,8 +2,22 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App.vue'
 import VueRouter from 'vue-router';
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+
+import VueLodash from 'vue-lodash'
+import lodash from 'lodash'
+ 
+// name is optional
+Vue.use(VueLodash, { name: 'custom' , lodash: lodash })
+
+
 Vue.use(Vuex)
 Vue.use(VueRouter);
+
+// Install BootstrapVue
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
 
 
 
@@ -31,7 +45,6 @@ const router = new VueRouter({
 })
 
 Vue.config.productionTip = false
-
 
 const store = new Vuex.Store({
   state: {

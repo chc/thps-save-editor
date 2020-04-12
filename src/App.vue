@@ -1,14 +1,31 @@
 <template>
-  <div id="app">
-    <p><router-link :to="{name: 'component_editor', params: {component_editor: 'customskater_info_structure' }}">Go to Info Editor</router-link></p>
-    <p><router-link :to="{name: 'component_editor', params: {component_editor: 'customskater_stats_structure' }}">Go to Stats Editor</router-link></p>
-    <p><router-link :to="{name: 'component_editor', params: {component_editor: 'customskater_appearance_structure' }}">Go to Appearance Editor</router-link></p>
-    
-    <router-view></router-view>
+  <div>
+    <b-navbar toggleable="lg" type="dark" variant="info">
+      <b-navbar-brand href="#">Save Editor</b-navbar-brand>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+    <b-collapse id="nav-collapse" is-nav>
+      <b-navbar-nav>
+        <b-nav-item-dropdown text="Skater Components">
+          <b-dropdown-item :to="{name: 'component_editor', params: {component_editor: 'customskater_info_structure' }}">Info</b-dropdown-item>
+          <b-dropdown-item :to="{name: 'component_editor', params: {component_editor: 'customskater_stats_structure' }}">Stats</b-dropdown-item>
+          <b-dropdown-item :to="{name: 'component_editor', params: {component_editor: 'customskater_appearance_structure' }}">Appearance</b-dropdown-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+    </b-collapse>
+    </b-navbar>
+    <div id="router-container">
+      <div id="router-view">
+      <router-view></router-view>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 export default {
   name: "App",
@@ -16,12 +33,17 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+body > div {
+  overflow: hidden;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+}
+#router-container {
+  height:100%;
+  overflow: scroll;
+}
+#router-view {
   margin-top: 60px;
 }
 </style>

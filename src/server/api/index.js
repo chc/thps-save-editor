@@ -36,18 +36,24 @@ function lookupHandler(dbo, req, res) {
 
         if (path != null) {
             var data_object = await lookupSkater(dbo.collection("saves"), req.params.save_id, path);
+
+            var only_null = true;
             
             for (var i = 0; i < result.options.length; i++) {
                 var option = result.options[i];
 
                 if(data_object && data_object.value) {
                     var data = findChild(data_object.value, option.path);
-                    if(data && data.value)
+                    if(data && data.value) {
                         skater_data[option.path] = data.value;
+                        only_null = false;
+                    }                        
                 } else {
                     skater_data[option.path] = null;
                 }
-
+            }
+            if(only_null) {
+                skater_data = null;
             }
         }
         result.data = skater_data;
