@@ -2,7 +2,7 @@
   <div class="editor-container" >
     <div class="add-component">
       <div class="form-select">
-        <b-form-select :options="options" value-field="path" text-field="UI_DisplayName" v-model="selectedAddComponent" size="md"></b-form-select>
+        <b-form-select :options="inactiveItems" value-field="path" text-field="UI_DisplayName" v-model="selectedAddComponent" size="md"></b-form-select>
       </div>
     <b-button variant="success" v-on:click="onClickAddComponent"><b-icon-plus></b-icon-plus></b-button>
     </div>
@@ -34,6 +34,15 @@ export default {
       var items = [];
       for(var i=0;i<this.options.length;i++) {
         if(this.options[i].deleted != true) {
+          items.push(this.options[i]);
+        }
+      }
+      return items;
+    },
+    inactiveItems: function() {
+      var items = [];
+      for(var i=0;i<this.options.length;i++) {
+        if(this.options[i].deleted == true) {
           items.push(this.options[i]);
         }
       }
