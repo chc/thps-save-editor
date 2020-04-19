@@ -19,7 +19,7 @@
         <div class="input-container">          
           <b-form-input v-if="item.UI_Options.type == 'integer'" type="number" v-model="data[item.path]" number/>
           <b-form-input v-if="item.UI_Options.type == 'string'" type="text" v-model="data[item.path]" />
-          <b-form-select v-if="item.UI_Options.type == 'name'" v-model="data[item.path]" :options="structureData" value-field="desc_id" text-field="desc_id"></b-form-select>
+          <b-form-select v-if="item.UI_Options.type == 'name'" v-model="data[item.path]" :options="structureData[item.path]"></b-form-select>
           <UIOption v-on:deleteComponent="onChildComponentDeleted" v-bind:title="item.UI_DisplayName" v-if="item.UI_Options.type == 'component'" v-bind:component-name="item.UI_Options.subtype" v-bind:save-id="saveId" v-bind:path="generatedPath + '.' + item.path"> </UIOption>
         </div>
         
@@ -34,7 +34,7 @@ export default {
   name: "UIOption", 
   props: ["componentName", "path", "title", "saveId"],
   data() {
-      return {options: [], data: {}, generatedPath:"",selectedAddComponent: null}
+      return {options: [], data: {}, generatedPath:"",selectedAddComponent: null, structureData: {}}
   },
   computed: {
     activeItems: function() {
@@ -132,7 +132,29 @@ export default {
           } else {
             this.emitDeleted();
           }
-          this.structureData = component_data.structureData;
+          
+          if(component_data && component_data.structureData) {
+            this.structureData = component_data.structureData;
+            var structureItems = Object.keys(this.structureData);
+            for(var x=0;x<structureItems.length;x++) {
+              var key = structureItems[x];
+              for(var j=0;j<this.structureData[key].length;j++) {
+                var item = this.structureData[key][j];
+                var name = "frontend_desc";
+                var value = "desc_id";
+                item.text = item[name] || item[value];
+                item.value = item[value];
+              }
+              /*for(var j=0;j<this.structureData.length;j++) {
+                var item = this.structureData[j];
+                var name = "frontend_desc";
+                var value = "desc_id";
+                item.text = item[name] || item[value];
+                item.value = item[value];
+              }*/
+            }
+          }
+
       });
     }
   },

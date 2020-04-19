@@ -62,10 +62,10 @@ function lookupHandler(dbo, req, res) {
             skater_data = fetchDataFromSkater(result, data_object);
         }
         result.data = skater_data;
-
         if(req.params.path_override) {
             var script_structure_name = path.split('.');
             script_structure_name = script_structure_name[script_structure_name.length-1];
+            result.structureData = {};
             result.structureData = (await dbo.collection('structures').findOne({name: script_structure_name})).data;  
         }
 
