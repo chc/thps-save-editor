@@ -24,6 +24,7 @@ Vue.use(IconsPlugin)
 // 1. Define route components.
 // These can be imported from other files
 import ComponentEditor from "./components/ComponentEditor.vue";
+import SaveManager from "./components/SaveManager.vue";
 // 2. Define some routes
 // Each route should map to a component. The "component" can
 // either be an actual component constructor created via
@@ -31,10 +32,15 @@ import ComponentEditor from "./components/ComponentEditor.vue";
 // We'll talk about nested routes later.
 const routes = [
   {
-    path: "/EditComponent/:component_name",
+    path: "/EditComponent/:component_name/:save_id",
     name: "component_editor",
     component: ComponentEditor,
   },
+  {
+    path: "/manage_save",
+    name: "manage_save",
+    component: SaveManager,
+  }
 ];
 
 // 3. Create the router instance and pass the `routes` option

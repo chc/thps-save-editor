@@ -7,9 +7,10 @@
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
         <b-nav-item-dropdown text="Skater Components">
-          <b-dropdown-item :to="{name: 'component_editor', params: {component_editor: 'customskater_info_structure' }}">Info</b-dropdown-item>
-          <b-dropdown-item :to="{name: 'component_editor', params: {component_editor: 'customskater_stats_structure' }}">Stats</b-dropdown-item>
-          <b-dropdown-item :to="{name: 'component_editor', params: {component_editor: 'customskater_appearance_structure' }}">Appearance</b-dropdown-item>
+          <b-dropdown-item :to="{name: 'component_editor', params: {component_name: 'customskater_info_structure', save_id: $store.state.SaveId }}">Info</b-dropdown-item>
+          <b-dropdown-item :to="{name: 'component_editor', params: {component_name: 'customskater_stats_structure', save_id: $store.state.SaveId }}">Stats</b-dropdown-item>
+          <b-dropdown-item :to="{name: 'component_editor', params: {component_name: 'customskater_appearance_structure', save_id: $store.state.SaveId }}">Appearance</b-dropdown-item>
+          <b-dropdown-item :to="{name: 'manage_save'}">Upload/Download</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>

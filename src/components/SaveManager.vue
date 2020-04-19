@@ -1,26 +1,13 @@
 <template>
-  <div class="component-container">
+  <div class="container">
       <b-button class="save-button" variant="primary" v-on:click="onClickDownload">Download<b-icon-arrow-down></b-icon-arrow-down></b-button>
-      <UIOption :key="$route.fullPath" v-bind:component-name="root_component" v-bind:save-id="SaveId" title="Component Editor" />
     </div>
 </template>
 
 <script>
-import UIOption from './UIOption'
-import  axios from 'axios';
+import axios from "axios";
 export default {
-  name: "ComponentEditor",
-  components: {
-    UIOption
-  },
-  data() {
-      return {root_component: this.$route.params.component_name, SaveId: this.$route.params.save_id};
-  },
-  beforeRouteUpdate(to, from, next) {
-    this.root_component = to.params.component_name
-    this.SaveId = to.params.save_id;
-    next();
-  },
+  name: "SaveManager", 
   methods: {
     onClickDownload() {
         axios({url: '/api/downloadSave/' + this.$store.state.SaveId, method: "GET", responseType: "blob"}).then(function(response) {
@@ -38,14 +25,5 @@ export default {
         });
     }
   }
-};
+}
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  .component-container {
-    height: 100%;
-    width: 50%;
-    float: right;
-  }
-</style>
