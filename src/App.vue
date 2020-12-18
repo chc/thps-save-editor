@@ -10,6 +10,7 @@
           <b-dropdown-item :to="{name: 'component_editor', params: {component_name: 'customskater_info_structure', save_id: $store.state.SaveId }}">Info</b-dropdown-item>
           <b-dropdown-item :to="{name: 'component_editor', params: {component_name: 'customskater_stats_structure', save_id: $store.state.SaveId }}">Stats</b-dropdown-item>
           <b-dropdown-item :to="{name: 'component_editor', params: {component_name: 'customskater_appearance_structure', save_id: $store.state.SaveId }}">Appearance</b-dropdown-item>
+          <b-dropdown-item :to="{name: 'component_editor', params: {component_name: 'customskater_info_trick_mapping', save_id: $store.state.SaveId }}">Trick Mapping</b-dropdown-item>
           <b-dropdown-item :to="{name: 'manage_save'}">Upload/Download</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>

@@ -8,7 +8,8 @@ var url = "mongodb://localhost:27017/";
 const axios = require('axios')
 
 function findChild(data, name) {
-    var child = _.find(data, function (o) { return o.name == name; });
+    var child = _.filter(data, function (o) { return o.name == name; });
+    if(child.length == 1 && name != 0) child = child[0];
     return child;
 }
 
@@ -36,11 +37,24 @@ function fetchDataFromSkater(component_definition, skater_db_record) {
         var option = component_definition.options[i];
 
         if(skater_db_record && skater_db_record.value) {
-            var data = findChild(skater_db_record.value, option.path);
-            if(data && data.value) {
+            var path = option.path;
+            if(option.UI_Options.type == "flags") {
+                path = 0;
+            }
+            var data = findChild(skater_db_record.value, path);
+            if(data && data.value && path != 0) {
                 skater_data[option.path] = data.value;
                 only_null = false;
-            }                        
+            } else {
+                if(data.length > 0) {
+                    only_null = false;
+                    skater_data[option.path] = {};
+                    for(var x=0;x<data.length;x++) {
+                        skater_data[option.path][data[x].value] = true;
+                    }
+                }
+                
+            }                     
         } else {
             skater_data[option.path] = null;
         }
@@ -62,11 +76,18 @@ function lookupHandler(dbo, req, res) {
             skater_data = fetchDataFromSkater(result, data_object);
         }
         result.data = skater_data;
+        result.structureData = {};
         if(req.params.path_override) {
             var script_structure_name = path.split('.');
             script_structure_name = script_structure_name[script_structure_name.length-1];
-            result.structureData = {};
-            result.structureData = (await dbo.collection('structures').findOne({name: script_structure_name})).data;  
+            result.structureData = (await dbo.collection('structures').findOne({name: script_structure_name})).data;
+        }
+
+        if(result.dataPaths) {
+            for(var i=0;i<result.dataPaths.length;i++) {
+                var dataKey = result.dataPaths[i];
+                result.structureData[dataKey] = (await dbo.collection('structures').findOne({name: dataKey})).data;
+            }
         }
 
         delete result._id;

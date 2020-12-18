@@ -19,7 +19,7 @@
         <div class="input-container">          
           <b-form-input v-if="item.UI_Options.type == 'integer'" type="number" v-model="data[item.path]" number/>
           <b-form-input v-if="item.UI_Options.type == 'string'" type="text" v-model="data[item.path]" />
-          <b-form-select v-if="item.UI_Options.type == 'name'" v-model="data[item.path]" :options="structureData[item.path]"></b-form-select>
+          <b-form-select v-if="item.UI_Options.type == 'name'" v-model="data[item.path]" :options="structureData[item.dataPath]"></b-form-select>
           <UIOption v-on:deleteComponent="onChildComponentDeleted" v-bind:title="item.UI_DisplayName" v-if="item.UI_Options.type == 'component'" v-bind:component-name="item.UI_Options.subtype" v-bind:save-id="saveId" v-bind:path="generatedPath + '.' + item.path"> </UIOption>
         </div>
         
@@ -121,6 +121,10 @@ export default {
 
           this.generatedPath = component_data.path;
           this.options = component_data.options;
+          for(var c=0;c<this.options.length;c++) {
+            var option = this.options[c];
+            option.dataPath = option["data_source"] || option["path"];
+          }
 
           if(component_data.data != null) {
             this.data = component_data.data;
@@ -142,16 +146,11 @@ export default {
                 var item = this.structureData[key][j];
                 var name = "frontend_desc";
                 var value = "desc_id";
+                
                 item.text = item[name] || item[value];
                 item.value = item[value];
+                
               }
-              /*for(var j=0;j<this.structureData.length;j++) {
-                var item = this.structureData[j];
-                var name = "frontend_desc";
-                var value = "desc_id";
-                item.text = item[name] || item[value];
-                item.value = item[value];
-              }*/
             }
           }
 
