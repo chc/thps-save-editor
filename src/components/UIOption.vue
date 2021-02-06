@@ -30,6 +30,7 @@
 
 <script>
 import axios from "axios";
+
 export default {
   name: "UIOption", 
   props: ["componentName", "path", "title", "saveId"],
@@ -146,6 +147,14 @@ export default {
                 var item = this.structureData[key][j];
                 var name = "frontend_desc";
                 var value = "desc_id";
+
+                if(item.UI_Options && item.UI_Options.name) {
+                  name = item.UI_Options.name;
+                }
+
+                if(item.UI_Options && item.UI_Options.value) {
+                  value = item.UI_Options.value;
+                }
                 
                 item.text = item[name] || item[value];
                 item.value = item[value];

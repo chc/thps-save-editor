@@ -42,8 +42,10 @@ body > div {
   width: 100%;
 }
 #router-container {
-  height:100%;
-  overflow: scroll;
+  height:95%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  
 }
 #router-view {
   margin-top: 60px;
