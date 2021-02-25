@@ -40,7 +40,8 @@ const routes = [
     path: "/manage_save",
     name: "manage_save",
     component: SaveManager,
-  }
+  },
+  {path: "/", redirect: "/manage_save"}
 ];
 
 // 3. Create the router instance and pass the `routes` option
@@ -54,7 +55,7 @@ Vue.config.productionTip = false
 
 const store = new Vuex.Store({
   state: {
-    SaveId: "5e8a52b3b6043acc1fc5f247"
+    SaveId: null
   }
 });
 

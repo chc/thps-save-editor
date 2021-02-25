@@ -1,5 +1,6 @@
 <template>
   <div class="editor-container" >
+    <!-- header stuff-->
     <b-card 
     v-bind:title="title" bg-variant="light">
     <b-button class="save-button" variant="primary" v-if="title == 'Component Editor'" v-on:click="onClickSave">Save<b-icon-check></b-icon-check></b-button>
@@ -9,17 +10,38 @@
       <div class="add-component" v-if="inactiveItems.length > 0">
         <b-button variant="success" v-on:click="onClickAddComponent"><b-icon-plus></b-icon-plus></b-button>
         <div class="form-select">
-          <b-form-select :options="inactiveItems" value-field="path" text-field="UI_DisplayName" v-model="selectedAddComponent" size="md"></b-form-select>
+          <b-form-select :options="inactiveItems" value-field="UI_DisplayName" text-field="UI_DisplayName" v-model="selectedAddComponent" size="md"></b-form-select>
         </div>
       </div>
     </div>
+    <!-- input stuff -->
       <div v-for="item in activeItems" :key="item.UI_DisplayName" class="component-item">
         <span v-if="item.UI_Options.type != 'component'">{{item.UI_DisplayName}}:</span>
         <b-button variant="danger" v-on:click="setDeleted(item)"  v-if="item.UI_Options.type != 'component'"><b-icon-x></b-icon-x></b-button>
         <div class="input-container">          
           <b-form-input v-if="item.UI_Options.type == 'integer'" type="number" v-model="data[item.path]" number/>
           <b-form-input v-if="item.UI_Options.type == 'string'" type="text" v-model="data[item.path]" />
-          <b-form-select v-if="item.UI_Options.type == 'name'" v-model="data[item.path]" :options="structureData[item.dataPath]"></b-form-select>
+          <b-form-select v-if="item.UI_Options.type == 'name'" v-model="data[item.path].name" :options="structureData[item.dataPath]"></b-form-select>
+          <b v-if="item.UI_Options.type == 'key_value_picker'">
+            
+            <p>
+              <KeyValuePicker :name="item.UI_DisplayName" :keyName="item.UI_Options.key" :value="item.UI_Options.value" 
+                              :keySource="structureData[item.UI_Options.key_source]" :valueSource="structureData[item.UI_Options.value_source]"
+                              :keyNullValue="item.UI_Options.key_null_value" :valueNullValue="item.UI_Options.value_null_value"
+                              :arrayPush="item.UI_Options.arrayPush"
+                              :fixedArraySize="item.UI_Options.fixedArraySize"
+                              :outputPath="generatedPath"
+                              v-bind:data="data" >
+                              
+              </KeyValuePicker>
+              <!-- {{generatedPath}}
+              picker with option: {{item.UI_DisplayName}}<br>
+              kv: {{item.UI_Options.key}} - {{item.UI_Options.value}}<br>
+              kv src: {{item.UI_Options.key_source}} - {{item.UI_Options.value_source}}<br>
+              arrayPush: {{item.UI_Options.arrayPush}}<br>
+              !-->
+            </p>
+            </b>
           <UIOption v-on:deleteComponent="onChildComponentDeleted" v-bind:title="item.UI_DisplayName" v-if="item.UI_Options.type == 'component'" v-bind:component-name="item.UI_Options.subtype" v-bind:save-id="saveId" v-bind:path="generatedPath + '.' + item.path"> </UIOption>
         </div>
         
@@ -30,8 +52,10 @@
 
 <script>
 import axios from "axios";
+import KeyValuePicker from './KeyValuePicker.vue';
 
 export default {
+  components: { KeyValuePicker },
   name: "UIOption", 
   props: ["componentName", "path", "title", "saveId"],
   data() {
@@ -60,7 +84,7 @@ export default {
   methods: {
     onClickAddComponent() {
       for(var i=0;i<this.options.length;i++) {
-        if(this.options[i].path == this.selectedAddComponent) {
+        if(this.options[i].UI_DisplayName === this.selectedAddComponent) {
           this.$set(this.options[i], 'deleted', false);
         }
       }

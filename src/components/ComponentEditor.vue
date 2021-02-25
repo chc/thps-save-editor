@@ -48,4 +48,8 @@ export default {
     width: 50%;
     float: right;
   }
+  .form-select {
+  display: inline-block;
+  float: right;
+}
 </style>
