@@ -93,6 +93,7 @@ export default {
     onChildComponentDeleted(event) {
       for(var i=0;i<this.options.length;i++) {
         if((this.generatedPath + '.' + this.options[i].path) == event.path && event.path != (this.generatedPath + '.' + this.selectedAddComponent)) {
+          this.data[this.options[i].path] = null; //child component was deleted
           this.$set(this.options[i], 'deleted', true);
         }
       }
@@ -103,7 +104,7 @@ export default {
     setDeleted(deletedItem) {
       for(var i=0;i<this.options.length;i++) {
         if(this.options[i].path == deletedItem.path) {
-          this.data[this.options[i].path] = null;
+          this.data[this.options[i].path] = null; //child variable was deleted
           this.$set(this.options[i], 'deleted', true);
           
         }
