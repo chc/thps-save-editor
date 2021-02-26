@@ -9,6 +9,7 @@
       <b-navbar-nav>
           <b-nav-item :to="{name: 'manage_save'}">Upload Save</b-nav-item>
           <b-nav-item-dropdown text="Skater Components" v-if="$store.state.SaveId">
+          <b-dropdown-item :to="{name: 'component_editor', params: {component_name: 'globalinfo_options_taunts_structure', save_id: $store.state.SaveId }}">Taunts</b-dropdown-item>
           <b-dropdown-item :to="{name: 'component_editor', params: {component_name: 'customskater_info_structure', save_id: $store.state.SaveId }}">Info</b-dropdown-item>
           <b-dropdown-item :to="{name: 'component_editor', params: {component_name: 'customskater_stats_structure', save_id: $store.state.SaveId }}">Stats</b-dropdown-item>
           <b-dropdown-item :to="{name: 'component_editor', params: {component_name: 'customskater_appearance_structure', save_id: $store.state.SaveId }}">Appearance</b-dropdown-item>

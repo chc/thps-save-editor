@@ -8,7 +8,7 @@ var url = process.env.MONGODB_URI || "mongodb://localhost:27017/";
 const axios = require('axios')
 
 
-var THPSAPI_BASEURL = process.env.THPSAPI_BASE_URL || "http://thmods.com";
+var THPSAPI_BASEURL = process.env.THPSAPI_BASE_URL || "http://api.thmods.com";
 var THPSAPI_APIKEY = process.env.THPS_API_KEY || "YKhXLP4rTOkSBWHC+T22FWrV3anj0zOhpSkZmN5gyIKmlaDukP7QDFLp73hhKwZg0rH4EbguSl0+p+HuO3b9+9sMv4V1sWiReFEAzrgsoW4WTAseunELMLrsfOUC474IbRujtkft81p06QZUIvKhJAvqsFKguhrHFK2DECmnvH4n78kVHVfh2BtfgBJrisV5wZwlPAMIF679Zp1TKUCohKt2a6AAN4deXnLeEYI5emK4zB4QP1U7pUJNgjwRgEwYmyXidWXlQ1y4AIeVco2pWruoAuEv51IPhvLx5LuVs9AF7JzaOm6WkxGniu+ThA4lJnXqQt8G3DtyI9Kf1uhj3g==";
 
 var fs = require('fs');
@@ -28,6 +28,9 @@ function lookupSkater(collection, save_id, path) {
         collection.findOne({ _id: new mongo.ObjectID(save_id) }, function (err, result) {
             if(err) {
                 return reject(err);
+            }
+            if(!result) {
+                return resolve(null);
             }
             var save_data = result.data[path_list[0]];
             for (var i = 1; i < path_list.length; i++) {
