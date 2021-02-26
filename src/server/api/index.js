@@ -132,7 +132,13 @@ function updateHandler(dbo, req, res) {
             for(var i=0;i<path_list.length-1;i++) {
                 path_root = path_root[path_list[i]];
             }
-            path_root[path_list[i]] = req.body[keys[x]]; //assign final path_list index so that the object reference gets changed
+            var assigned_value = req.body[keys[x]];
+            
+            if(assigned_value == null) {
+                delete path_root[path_list[i]]; //delete from ref
+            } else {
+                path_root[path_list[i]] = assigned_value; //assign final path_list index so that the object reference gets changed
+            }
             
         }
 

@@ -103,8 +103,9 @@ export default {
     setDeleted(deletedItem) {
       for(var i=0;i<this.options.length;i++) {
         if(this.options[i].path == deletedItem.path) {
+          this.data[this.options[i].path] = null;
           this.$set(this.options[i], 'deleted', true);
-          delete this.data[this.options[i].path];
+          
         }
       }
     },
