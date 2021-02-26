@@ -53,7 +53,7 @@ function fetchDataFromSkater(component_definition, skater_db_record) {
         if(skater_db_record != null) {
             var path = option.path;
             
-            if(skater_db_record[path]) {
+            if(skater_db_record[path] !== undefined && skater_db_record[path] !== null) {
                 skater_data[path] = skater_db_record[path];
                 only_null = false;
             }
@@ -132,13 +132,7 @@ function updateHandler(dbo, req, res) {
             for(var i=0;i<path_list.length-1;i++) {
                 path_root = path_root[path_list[i]];
             }
-            var assigned_value = req.body[keys[x]];
-            
-            if(assigned_value == null) {
-                delete path_root[path_list[i]]; //delete from ref
-            } else {
-                path_root[path_list[i]] = assigned_value; //assign final path_list index so that the object reference gets changed
-            }
+            path_root[path_list[i]] = req.body[keys[x]]; //assign final path_list index so that the object reference gets changed
             
         }
 
