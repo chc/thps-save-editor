@@ -21,6 +21,9 @@ export default {
     this.SaveId = to.params.save_id;
     next();
   },
+  created() {
+    this.$store.state.SaveId = this.SaveId; //set, incase its specified via route, and not currently in state.
+  },
   methods: {
     onClickDownload() {
         axios({url: '/api/downloadSave/' + this.$store.state.SaveId, method: "GET", responseType: "blob"}).then(function(response) {

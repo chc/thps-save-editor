@@ -8,6 +8,9 @@ var url = process.env.MONGODB_URI || "mongodb://localhost:27017/";
 const axios = require('axios')
 
 
+var THPSAPI_BASEURL = process.env.THPSAPI_BASE_URL || "http://thmods.com";
+var THPSAPI_APIKEY = process.env.THPS_API_KEY || "YKhXLP4rTOkSBWHC+T22FWrV3anj0zOhpSkZmN5gyIKmlaDukP7QDFLp73hhKwZg0rH4EbguSl0+p+HuO3b9+9sMv4V1sWiReFEAzrgsoW4WTAseunELMLrsfOUC474IbRujtkft81p06QZUIvKhJAvqsFKguhrHFK2DECmnvH4n78kVHVfh2BtfgBJrisV5wZwlPAMIF679Zp1TKUCohKt2a6AAN4deXnLeEYI5emK4zB4QP1U7pUJNgjwRgEwYmyXidWXlQ1y4AIeVco2pWruoAuEv51IPhvLx5LuVs9AF7JzaOm6WkxGniu+ThA4lJnXqQt8G3DtyI9Kf1uhj3g==";
+
 var fs = require('fs');
 var os = require('os');
 const FormData = require('form-data');
@@ -44,7 +47,7 @@ function fetchDataFromSkater(component_definition, skater_db_record) {
     for (var i = 0; i < component_definition.options.length; i++) {
         var option = component_definition.options[i];
 
-        if(skater_db_record !== null) {
+        if(skater_db_record != null) {
             var path = option.path;
             
             if(skater_db_record[path]) {
@@ -152,9 +155,9 @@ function downloadSave(dbo, req, res) {
         }
           var axios_request = {
             'url': "/api/Save/Serialize/0/5/CAS",
-            'baseURL': process.env.THPSAPI_BASE_URL,
+            'baseURL': THPSAPI_BASEURL,
             method: "POST",
-            headers: {APIKey: process.env.THPS_API_KEY},
+            headers: {APIKey: THPSAPI_APIKEY},
             responseType: 'stream',
             data: save_data.data
           };
@@ -176,10 +179,10 @@ function uploadSave(dbo, req, res) {
     var bodyFormData = new FormData();
     bodyFormData.append("save", fs.createReadStream(file.path));
     var headers = bodyFormData.getHeaders();
-    headers.APIKey = process.env.THPS_API_KEY;
+    headers.APIKey = THPSAPI_APIKEY;
     var axios_request = {
         'url': "/api/Save/Deserialize/0/5",
-        'baseURL': process.env.THPSAPI_BASE_URL,
+        'baseURL': THPSAPI_BASEURL,
         method: "POST",
         headers,
         responseType: 'stream',

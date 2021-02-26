@@ -21,6 +21,13 @@
         <div class="input-container">          
           <b-form-input v-if="item.UI_Options.type == 'integer'" type="number" v-model="data[item.path]" number/>
           <b-form-input v-if="item.UI_Options.type == 'string'" type="text" v-model="data[item.path]" />
+          <b-form-checkbox v-if="item.UI_Options.type == 'checkbox'"
+            v-model="data[item.path]"
+            value=true
+            unchecked-value=false
+          >
+          </b-form-checkbox>
+
           <b-form-select v-if="item.UI_Options.type == 'name'" v-model="data[item.path].name" :options="structureData[item.dataPath]"></b-form-select>
           <b v-if="item.UI_Options.type == 'key_value_picker'">
             
@@ -34,12 +41,6 @@
                               v-bind:data="data" >
                               
               </KeyValuePicker>
-              <!-- {{generatedPath}}
-              picker with option: {{item.UI_DisplayName}}<br>
-              kv: {{item.UI_Options.key}} - {{item.UI_Options.value}}<br>
-              kv src: {{item.UI_Options.key_source}} - {{item.UI_Options.value_source}}<br>
-              arrayPush: {{item.UI_Options.arrayPush}}<br>
-              !-->
             </p>
             </b>
           <UIOption v-on:deleteComponent="onChildComponentDeleted" v-bind:title="item.UI_DisplayName" v-if="item.UI_Options.type == 'component'" v-bind:component-name="item.UI_Options.subtype" v-bind:save-id="saveId" v-bind:path="generatedPath + '.' + item.path"> </UIOption>
@@ -151,15 +152,16 @@ export default {
             option.dataPath = option["data_source"] || option["path"];
           }
 
-          if(component_data.data != null) {
-            this.data = component_data.data;
-            for(var i=0;i<this.options.length;i++) {
+          this.data = component_data.data || {};
+          for(var i=0;i<this.options.length;i++) {
+            if(this.data[this.options[i].path] === undefined) {
+              this.setDeleted(this.options[i]);
+            }
+            if(this.options[i].UI_Options && this.options[i].UI_Options.type == 'name') {
               if(this.data[this.options[i].path] === undefined) {
-                this.setDeleted(this.options[i]);
+                this.data[this.options[i].path] = {type: "name"}; //object doesn't exist, set initial name
               }
             }
-          } else {
-            this.emitDeleted();
           }
           
           if(component_data && component_data.structureData) {
