@@ -22,11 +22,7 @@
         <div v-bind:class="item.containerClass">          
           <b-form-input v-if="item.UI_Options.type == 'integer'" type="number" v-model="data[item.path]" number/>
           <b-form-input v-if="item.UI_Options.type == 'string'" type="text" v-model="data[item.path]" />
-          <b-form-checkbox v-if="item.UI_Options.type == 'checkbox'"
-            v-model="data[item.path]"
-            value=true
-            unchecked-value=false
-          >
+          <b-form-checkbox v-if="item.UI_Options.type == 'checkbox'" v-model="data[item.path]" >
           </b-form-checkbox>
 
           <b-form-select v-if="item.UI_Options.type == 'name'" v-model="data[item.path].name" :options="structureData[item.dataPath]"></b-form-select>
