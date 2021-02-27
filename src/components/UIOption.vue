@@ -216,7 +216,7 @@ export default {
   float: right;
 }
 .component-item {
-  display: inline-block;
+  display: flow-root;
   width: 100%;
 }
 .component-item > .btn {
@@ -225,7 +225,6 @@ export default {
   margin: 5px 25px;
 }
 .input-container {
-  float: right;
   display: inline-block;
 }
 .card-title {

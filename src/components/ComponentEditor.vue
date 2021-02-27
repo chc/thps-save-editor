@@ -48,11 +48,11 @@ export default {
 <style scoped>
   .component-container {
     height: 100%;
-    width: 50%;
-    float: right;
+    margin: 5%;
+    display: block;
   }
-  .form-select {
+  /*.form-select {
   display: inline-block;
   float: right;
-}
+}*/
 </style>
