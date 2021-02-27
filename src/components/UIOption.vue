@@ -222,11 +222,11 @@ export default {
   margin: 0 5px;
 }
 .add-component > .form-select {
-  display: inline-block;
+  display: block;
   float: right;
 }
 .add-component > .btn, .input-container > .btn {
-  display: inline-block;
+  display: block;
   float: right;
 }
 .component-item {
@@ -236,7 +236,7 @@ export default {
 }
 
 .component-item > .btn {
-  display: inline-block;
+  display: block;
   float: right;
   margin: 0 5px;
 }
