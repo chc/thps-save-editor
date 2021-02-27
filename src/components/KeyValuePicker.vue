@@ -1,27 +1,29 @@
 <template>
-  <div class="editor-container" >
+  <b-card 
+    v-bind:title="name" bg-variant="light">
     <div class="component-controls">
-      <span>Add/Remove key:</span>
+      
       <div class="add-component">
+        <label>Add/Remove key:</label>
         <b-button variant="success" v-on:click="onClickAddKey"><b-icon-plus></b-icon-plus></b-button>
         <div class="form-select">
           <b-form-select :options="inactiveKeys" value-field="value" text-field="value" v-model="selectedAddKey" size="md"></b-form-select>
         </div>
       </div>
       </div>
-   <div class="picker" v-for="(item, index) in data" :key="index">
-      <div v-if="canEditKey(item[keyName].name)">
-      <span>{{item[keyName].name}}:</span>
+   <div class="picker-item" v-for="(item, index) in activeData" :key="index">
+      <label>{{item[keyName].name}}:</label>
+      <b-button variant="danger" v-on:click="deleteKey(item[keyName].name)"><b-icon-x></b-icon-x></b-button>
       <div class="form-select">
           <b-form-select :options="valueSource" value-field="desc_id" text-field="frontend_desc"  size="md" v-model="item[value].name"></b-form-select>
-          <b-button variant="danger" v-on:click="deleteKey(item[keyName].name)"><b-icon-x></b-icon-x></b-button>
         </div>
-      </div>
+        
     </div>
-  <div v-if="fixedArraySize > 0">
+  <!-- <div v-if="fixedArraySize > 0">
     The fixed array size is {{fixedArraySize}}. Any entries above this number will be removed. This applies to the root node, which may not include all displayed items.
     </div>
-  </div>
+    -->
+  </b-card>
 </template>
 
 <script>
@@ -32,31 +34,40 @@ export default {
   data() {
       return {selectedAddKey: null}
   },
-    computed: {
-    activeKeys: function() {
-      var items = [];
-      for(var i=0;i<this.data.length;i++) {
-        var keyName = this.data[i][this.keyName].name;
-        if(this.canEditKey(keyName)) {
-          items.push(keyName);
+  computed: {
+      activeData: function() {
+        var result = [];
+        for(var i=0;i<this.data.length;i++) {
+          var item = this.data[i];
+          if(this.canEditKey(item[this.keyName].name)) {
+            result.push(item);
+          }
         }
-      }
-      return items;
-    },
-    inactiveKeys: function() {
-      var items = [];
-      var activeKeys = this.activeKeys;
-      
-
-      for(var i=0;i<this.keySource.length;i++) {
-        var key = this.keySource[i];
-        if(this.canEditKey(key.value) && activeKeys.indexOf(key.value) == -1) {
-          items.push(key);
+        return result;
+      },
+      activeKeys: function() {
+        var items = [];
+        for(var i=0;i<this.data.length;i++) {
+          var keyName = this.data[i][this.keyName].name;
+          if(this.canEditKey(keyName)) {
+            items.push(keyName);
+          }
         }
-      }
+        return items;
+      },
+      inactiveKeys: function() {
+        var items = [];
+        var activeKeys = this.activeKeys;
+        
 
-      return items;
-    }
+        for(var i=0;i<this.keySource.length;i++) {
+          var key = this.keySource[i];
+          if(this.canEditKey(key.value) && activeKeys.indexOf(key.value) == -1) {
+            items.push(key);
+          }
+        }
+        return items;
+      }
   },
   methods: {
     canEditKey(keyName) {
@@ -129,5 +140,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.form-select {
+  float: right;
+}
+.component-controls {
+  display: inline-block;
+  width: 100%;
+}
+.add-component > .btn, .picker-item > .btn {
+  float: right;
+  margin: 0 5px;
+}
+.picker-item {
+  width: 100%;
+  display: inline-block;
+  margin: 5px 0;
+}
 </style>

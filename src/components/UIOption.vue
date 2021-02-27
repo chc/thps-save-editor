@@ -17,8 +17,8 @@
     </div>
     <!-- input stuff -->
       <div v-for="item in activeItems" :key="item.UI_DisplayName" class="component-item">
-        <span v-if="item.UI_Options.type != 'component'">{{item.UI_DisplayName}}:</span>
-        <b-button variant="danger" v-on:click="setDeleted(item)"  v-if="item.UI_Options.type != 'component'"><b-icon-x></b-icon-x></b-button>
+        <span v-if="item.UI_Options.type != 'component' && item.UI_Options.type != 'key_value_picker'">{{item.UI_DisplayName}}:</span>
+        <b-button variant="danger" v-on:click="setDeleted(item)"  v-if="item.UI_Options.type != 'component' && item.UI_Options.type != 'key_value_picker'"><b-icon-x></b-icon-x></b-button>
         <div v-bind:class="item.containerClass">          
           <b-form-input v-if="item.UI_Options.type == 'integer'" type="number" v-model="data[item.path]" number/>
           <b-form-input v-if="item.UI_Options.type == 'string'" type="text" v-model="data[item.path]" />
@@ -30,10 +30,8 @@
           </b-form-checkbox>
 
           <b-form-select v-if="item.UI_Options.type == 'name'" v-model="data[item.path].name" :options="structureData[item.dataPath]"></b-form-select>
-          <b v-if="item.UI_Options.type == 'key_value_picker'">
-            
-            <p>
-              <KeyValuePicker :name="item.UI_DisplayName" :keyName="item.UI_Options.key" :value="item.UI_Options.value" 
+              <KeyValuePicker v-if="item.UI_Options.type == 'key_value_picker'"
+                              :name="item.UI_DisplayName" :keyName="item.UI_Options.key" :value="item.UI_Options.value" 
                               :keySource="structureData[item.UI_Options.key_source]" :valueSource="structureData[item.UI_Options.value_source]"
                               :keyNullValue="item.UI_Options.key_null_value" :valueNullValue="item.UI_Options.value_null_value"
                               :arrayPush="item.UI_Options.arrayPush"
@@ -42,8 +40,6 @@
                               v-bind:data="data" >
                               
               </KeyValuePicker>
-            </p>
-            </b>
           <UIOption v-on:deleteComponent="onChildComponentDeleted" v-bind:title="item.UI_DisplayName" v-if="item.UI_Options.type == 'component'" v-bind:component-name="item.UI_Options.subtype" v-bind:save-id="saveId" v-bind:path="generatedPath + '.' + item.path"> </UIOption>
         </div>
         

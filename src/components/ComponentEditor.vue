@@ -51,8 +51,7 @@ export default {
     margin: 5%;
     display: block;
   }
-  /*.form-select {
-  display: inline-block;
-  float: right;
-}*/
+  .save-button {
+    margin: 5px;
+  }
 </style>
