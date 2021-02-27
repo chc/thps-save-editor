@@ -1,1 +1,0 @@
-{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"QScript.scriptkeys"},{"v":{"$numberInt":"2"},"key":{"checksum":{"$numberInt":"1"}},"name":"checksum_index","ns":"QScript.scriptkeys"}],"uuid":"0062d7abe35a4c638d9cebcf8fb8b1e5","collectionName":"scriptkeys"}

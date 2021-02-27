@@ -1,1 +1,1 @@
-{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"SaveEditor.components"}],"uuid":"2a46b73957ea4800b3d80030c75f90e8","collectionName":"components"}
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"1f90922c16844de7a046a1de1cbcf6b5","collectionName":"components"}
