@@ -86,6 +86,11 @@ export default {
     onClickAddComponent() {
       for(var i=0;i<this.options.length;i++) {
         if(this.options[i].UI_DisplayName === this.selectedAddComponent) {
+            if(this.options[i].UI_Options && this.options[i].UI_Options.type == 'name') {
+              if(this.data[this.options[i].path] === undefined || this.data[this.options[i].path] === null) {
+                this.data[this.options[i].path] = {type: "name"}; //object doesn't exist, set initial name
+              }
+            }
           this.$set(this.options[i], 'deleted', false);
         }
       }
@@ -158,11 +163,6 @@ export default {
           for(var i=0;i<this.options.length;i++) {
             if(this.data[this.options[i].path] === undefined) {
               this.setDeleted(this.options[i]);
-            }
-            if(this.options[i].UI_Options && this.options[i].UI_Options.type == 'name') {
-              if(this.data[this.options[i].path] === undefined) {
-                this.data[this.options[i].path] = {type: "name"}; //object doesn't exist, set initial name
-              }
             }
           }
           
