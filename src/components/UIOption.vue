@@ -5,11 +5,12 @@
     v-bind:title="title" bg-variant="light">
     <b-button class="save-button" variant="primary" v-if="title == 'Component Editor'" v-on:click="onClickSave">Save<b-icon-check></b-icon-check></b-button>
     <div class="component-controls" v-if="inactiveItems.length > 0 || title != 'Component Editor'">
-      <span>Add/Remove component:</span>
-      <b-button variant="danger" v-on:click="emitDeleted" v-if="title != 'Component Editor'"><b-icon-x></b-icon-x></b-button>
-      <div class="add-component" v-if="inactiveItems.length > 0">
-        <b-button variant="success" v-on:click="onClickAddComponent"><b-icon-plus></b-icon-plus></b-button>
-        <div class="form-select">
+      
+      <div class="add-component" >        
+        <label>Add/Remove component:</label>
+        <b-button variant="danger" v-on:click="emitDeleted" v-if="title != 'Component Editor'"><b-icon-x></b-icon-x></b-button>
+        <b-button variant="success" v-if="inactiveItems.length > 0" v-on:click="onClickAddComponent"><b-icon-plus></b-icon-plus></b-button>
+        <div class="form-select" v-if="inactiveItems.length > 0">
           <b-form-select :options="inactiveItems" value-field="UI_DisplayName" text-field="UI_DisplayName" v-model="selectedAddComponent" size="md"></b-form-select>
         </div>
       </div>
@@ -18,7 +19,7 @@
       <div v-for="item in activeItems" :key="item.UI_DisplayName" class="component-item">
         <span v-if="item.UI_Options.type != 'component'">{{item.UI_DisplayName}}:</span>
         <b-button variant="danger" v-on:click="setDeleted(item)"  v-if="item.UI_Options.type != 'component'"><b-icon-x></b-icon-x></b-button>
-        <div class="input-container">          
+        <div v-bind:class="item.containerClass">          
           <b-form-input v-if="item.UI_Options.type == 'integer'" type="number" v-model="data[item.path]" number/>
           <b-form-input v-if="item.UI_Options.type == 'string'" type="text" v-model="data[item.path]" />
           <b-form-checkbox v-if="item.UI_Options.type == 'checkbox'"
@@ -67,7 +68,13 @@ export default {
       var items = [];
       for(var i=0;i<this.options.length;i++) {
         if(this.options[i].deleted != true) {
-          items.push(this.options[i]);
+          var opts = this.options[i];
+          if(this.options[i].UI_Options && this.options[i].UI_Options.type) {
+            var specificName = "input-container-" + this.options[i].UI_Options.type;
+            opts.containerClass = {"input-container": true };
+            opts.containerClass[specificName] = true;
+          }
+          items.push(opts);
         }
       }
       return items;
@@ -203,9 +210,20 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .add-component {
+  width: 100%;
+  margin-bottom: 5px;
   display: inline-block;
+}
+.add-component > label {
+  float: left;
+}
+.add-component > .btn, .add-component > select {
   position: relative;
   float: right;
+  margin: 0 5px;
+}
+.add-component > .btn-success {
+  margin: 0 5px;
 }
 .add-component > .form-select {
   display: inline-block;
@@ -218,14 +236,20 @@ export default {
 .component-item {
   display: flow-root;
   width: 100%;
+  margin: 5px 0;
 }
+
 .component-item > .btn {
   display: inline-block;
   float: right;
-  margin: 5px 25px;
+  margin: 0 5px;
 }
 .input-container {
   display: inline-block;
+}
+.input-container-name, .input-container-integer, .input-container-checkbox, .input-container-string {
+  float: right;
+  min-width: 50%;
 }
 .card-title {
   display: inline-block;
