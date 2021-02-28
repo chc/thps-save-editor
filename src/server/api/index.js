@@ -203,8 +203,14 @@ function uploadSave(dbo, req, res) {
                 data.push(chunk);
               });
               response.data.on('end', () => {
+                if(totalLength == 0) {
+                    return res.status(400).end();
+                }
                 var buffer = Buffer.concat(data, totalLength);
                 var json_buffer = buffer.toString('utf8');
+                if(json_buffer.length == 0) {
+                    return res.status(400).end();
+                }
                 var saveObject = JSON.parse(json_buffer);
                 var insertObj = {type: "SKA", data: saveObject};
                 dbo.collection('saves').insertOne(insertObj, function(err, dbResult) {
@@ -218,6 +224,9 @@ function uploadSave(dbo, req, res) {
                 });
                 
               });
+          }, function(error) {
+            console.error(error);
+            return res.status(500);
           });
 
 }
