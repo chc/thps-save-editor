@@ -11,6 +11,11 @@
       <b>THUG Pro items are not supported</b>, however if you upload your THUG Pro skater, provided you do not modify any of the THUG Pro specific items, your skater can be downloaded without issue.<br><br>
 
       It is advised you back up your original save, as this tool is still in testing.<br>
+
+      <br>
+      The code for this project, and its dependencies are available in the following repos:<br>
+      <a href="https://github.com/chc/thps.api">THPS API (Save Serialization)</a><br>
+      <a href="https://github.com/chc/thps-save-editor">Save Editor UI</a><br>
       </b-card-text>
     </b-card>
       <div class="save-id-container">
