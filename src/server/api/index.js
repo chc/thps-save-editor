@@ -226,7 +226,7 @@ function uploadSave(dbo, req, res) {
               });
           }, function(error) {
             console.error(error);
-            return res.status(500);
+            return res.status(500).end();
           });
 
 }
